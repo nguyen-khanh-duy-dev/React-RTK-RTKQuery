@@ -1,6 +1,5 @@
 import { http } from "@/utils/http"
 import { createAsyncThunk } from "@reduxjs/toolkit"
-
 export const getCurrentUser = createAsyncThunk(
     "auth/getCurrentUser",
     async () => {
@@ -27,4 +26,10 @@ export const login = async (data) => {
 export const logout = async () => {
     const response = await http.post("/auth/logout")
     return response.data
+}
+
+// Check exist email
+export const checkExistsEmail = async (email) => {
+    const response = await http.get(`/auth/check-email?email=${email}`)
+    return response.data.exists
 }
