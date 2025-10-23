@@ -1,0 +1,1 @@
+import{u as c,r,g as o,a as i,j as e}from"./index-D12kchJ-.js";const u=t=>t.product.list,n=()=>{const t=c();r.useEffect(()=>{t(o())},[t])},d=()=>i(u).items;function p(){n();const t=d();if(t)return e.jsx("div",{children:t.map(s=>e.jsx("div",{children:s.title},s.id))})}export{p as default};
