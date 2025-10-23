@@ -149,6 +149,30 @@ export { store, persistor }
 -   Giúp lưu trữ state lại khi f5 lại trang
 -   persistor sẽ được sử dụng ở main
 
+## Các loại dữ liệu NÊN lưu (Good to Persist) 👍
+
+Giỏ hàng (Shopping Cart)
+
+Đây là trường hợp kinh điển. Người dùng thêm 5 món đồ vào giỏ, lỡ tay F5, và thấy giỏ hàng trống rỗng. Đây là một trải nghiệm rất tệ. redux-persist giúp giữ lại giỏ hàng của họ.
+
+Cài đặt người dùng (User Preferences)
+
+Giao diện: Chế độ Sáng/Tối (theme: 'dark').
+
+Ngôn ngữ: Lựa chọn ngôn ngữ của người dùng (language: 'vi').
+
+Bộ lọc: Các bộ lọc mà người dùng đã áp dụng trên một trang danh sách sản phẩm (ví dụ: "sắp xếp theo giá", "chỉ hiển thị hàng chính hãng").
+
+Trạng thái Giao diện (UI State)
+
+Ví dụ: Trạng thái đóng/mở của thanh sidebar (isSidebarCollapsed: true). Nếu người dùng thích làm việc với sidebar đã thu gọn, nó nên giữ nguyên như vậy khi họ quay lại.
+
+Thông tin người dùng cơ bản (Non-sensitive User Info)
+
+Tên người dùng, avatar, email (những thông tin cơ bản dùng để hiển thị trên header).
+
+LƯU Ý: Tuyệt đối không lưu token theo cách này.
+
 ## Day 44. Refresh Token + Validate Form with Yup
 
 1. Refresh Token
@@ -316,3 +340,49 @@ httpClient.interceptors.response.use(
     }
 )
 ```
+
+## Day 45: Error Boundaries. Code Spliting. useReducer, Infinity Load
+
+1. Error Boundaries
+
+-   Sử dụng để bắt lỗi các component con bên trong. Giúp hiển thị ra một UI tùy chỉnh mà ko để trường hợp màn hình trắng hiện lên
+
+Link: https://legacy.reactjs.org/docs/error-boundaries.html
+
+-   => Sử dụng class compnent cho Error Boudaries
+-   => Bọc nó bên ngoài cùng của App trong main để bắt lỗi tất cả
+
+2. Code Spliting : Chia nhỏ code. Lúc nào truy cập thì mưới tải. Tải 1 lần nó sẽ đc cache lại và lần sau truy cập sẽ ko bị tải lại
+
+### Khi nào nên sử dụng:
+
+-   Khi một component quá lớn > 100kb
+-   Khi một component được truy cập lần đầu một cách trực tiếp (VD: Home, sản phẩm, chi tiết sp, ...)
+
+#### Note: Thêm Suspense để xử lý nêú trường hợp nó tải lâu quá thì thêm loading.
+
+Ví dụ: products sử dụng code spliting. Nấu bấm vào products => Cần tải file js cho page đó. Trong thời gian tải nên thêm loading
+
+```javascript
+<Suspense fallback={<div>Loading...</div>}>
+    <App />
+</Suspense>
+```
+
+## React portal
+
+#### Lưu ý với transform: Thẻ bên ngoài dùng transform, thẻ bên trong nó dùng position: fixed => Nó sẽ phá hỏng position fixed của thẻ bên trong nó
+
+```javascript
+<body>
+    <div id="root"></div>
+
+    <div id="portal-root"></div>
+</body>
+```
+
+-   Sử dụng một portal-root để bọc tất cả các phần tử được đưa ra ngoài
+    ![alt text](image.png)
+-   Cách để chỉ tạo một lần mỗi khi mở, nếu ko nó cứ liên tục thêm khi mở modal
+
+## Infinity load

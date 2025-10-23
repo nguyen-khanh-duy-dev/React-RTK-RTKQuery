@@ -31,9 +31,8 @@ const debounceCheckExistsEmail = (email) => {
 export const registerSchema = object({
     firstName: string().required("Trường này là bắt buộc").min(2),
     lastName: string().required("Trường này là bắt buộc").min(2),
-    email: string().email("Sai định dạng email"),
-    password: string()
-        .min(8, "Mật khẩu tối thiểu 8 kí tự")
+    email: string()
+        .email("Sai định dạng email")
         .test(
             "email",
             "Email đã tồn tại, chọn email khác",
@@ -52,6 +51,7 @@ export const registerSchema = object({
                 }
             }
         ),
+    password: string().min(8, "Mật khẩu tối thiểu 8 kí tự"),
     password_confirmation: string()
         .oneOf([ref("password")], "Mật khẩu nhập lại không khớp")
         .required("Bắt buộc nhập"),

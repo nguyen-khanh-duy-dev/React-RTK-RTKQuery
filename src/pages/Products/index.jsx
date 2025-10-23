@@ -5,6 +5,7 @@ function Products() {
     const products = useProductsList()
 
     if (!products) return
+
     return (
         <div>
             {products.map((product) => (

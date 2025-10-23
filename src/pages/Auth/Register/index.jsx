@@ -29,7 +29,7 @@ function Register() {
 
     const password = watch("password")
 
-    // Xử lý confirmation password. Nếu trogn web có nhiều trường hợp cần xử lý như này thì nên tạo ra custom hooks
+    // Xử lý confirmation password. Nếu trong trang web có nhiều trường hợp cần xử lý như này thì nên tạo ra custom hooks
     useEffect(() => {
         const confirmation = watch("password_confirmation")
         if (confirmation && password !== confirmation) {
